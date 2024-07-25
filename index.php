@@ -3,6 +3,7 @@
 // includiamo file delle funzioni
 include __DIR__  . "/functions.php";
 
+
 // controllo se il dato è stato passato correttamente e setto un output di conseguenza
 if (!isset($_GET['char-num'])) {
     // se non esiste ancora un dato partiamo con il messaggio di default
@@ -12,8 +13,40 @@ if (!isset($_GET['char-num'])) {
     $result = 'Errore. Il numero inserito deve essere compreso tra 8 e 32';
 } else {
     // se il dato esiste e rispetta i requisiti avviamo la funzione di generazione della password
+    // prendiamo tutti i dati dal form se esistono, altrimenti mettiamo in false
     $char_num = ($_GET['char-num']);
-    $result = 'La tua password è:' . ' ' . passGen($char_num);
+
+
+    if (!isset($_GET['letters'])) {
+        $char = false;
+    } else {
+        $char = ($_GET['letters']);
+    }
+
+    
+
+    if (!isset($_GET['numbers'])) {
+        $numbers = false;
+    } else {
+        $numbers = ($_GET['numbers']);
+    }
+
+    
+
+    if (!isset($_GET['sym'])) {
+        $sym = false;
+    } else {
+        $sym = ($_GET['sym']);
+    }
+
+
+    if (!isset($_GET['repeat'])) {
+        $repeat = false;
+    } else {
+        $repeat = ($_GET['repeat']);
+    }
+    // inseriamo i dati come argomenti nella funzione
+    $result = 'La tua password è:' . ' ' . passGen($char_num, $char, $numbers, $sym, $repeat);
     // dopo aver generato la password avviamo la session
     session_start();
     // impostiamo il risultato finale come variabile in session
@@ -45,8 +78,22 @@ if (!isset($_GET['char-num'])) {
     </div>
 
     <form action="index.php" method="get">
+
         <label for="char-numbers">Inserisci il numero di caratteri</label>
-        <input type="number" id="char-numbers" name="char-num">
+        <input type="number" id="char-numbers" name="char-num"><br>
+        <label for="letters">Lettere:</label>
+        <input type="checkbox" name="letters" id="letters"><br>
+        <label for="numbers">Numeri:</label>
+        <input type="checkbox" name="numbers" id="numbers"><br>
+        <label for="sym">Simboli:</label>
+        <input type="checkbox" name="sym" id="sym"><br>
+
+        <h3>Ripetizione caratteri identici?</h3>
+        <label for="si">Sì</label>
+        <input type="radio" name="repeat" value="si" id="si">
+        <label for="no">No</label>
+        <input type="radio" name="repeat" value="no" id="no">
+
         <button class="btn btn-primary" type="submit">Invia</button>
         <a class="btn btn-primary" href="index.php">Annulla</a>
     </form>
