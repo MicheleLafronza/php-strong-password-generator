@@ -1,22 +1,23 @@
 <?php
-// controllo se il dato è stato passato correttamente
+
+// includiamo file delle funzioni
+include __DIR__  . "/functions.php";
+
+// controllo se il dato è stato passato correttamente e setto un output di conseguenza
 if (!isset($_GET['char-num'])) {
-    $result = 'Inserisci la lunghezza della password e premi il bottone per generare';
+    // se non esiste ancora un dato partiamo con il messaggio di default
+    $result = 'Inserisci la lunghezza dei caratteri e premi il bottone per generare una password';
 } elseif (($_GET['char-num']) < 8 || ($_GET['char-num']) > 32) {
+    // se il dato non corrisponde ai requisiti generiamo messaggio di errore
     $result = 'Errore. Il numero inserito deve essere compreso tra 8 e 32';
 } else {
+    // se il dato esiste e rispetta i requisiti avviamo la funzione di generazione della password
     $char_num = ($_GET['char-num']);
-    var_dump($char_num);
-    $result = 'Password generata.';
+    // var_dump($char_num);
+    $result = 'La tua password è:' . ' ' . passGen($char_num);
 }
 
-
-
 ?>
-
-<!-- Milestone 1
-Creare un form che invii in GET la lunghezza della password. Una nostra funzione utilizzerà questo dato per generare una password casuale (composta da lettere, lettere maiuscole, numeri e simboli) da restituire all’utente.
-Scriviamo tutto (logica e layout) in un unico file index.php -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,16 +30,19 @@ Scriviamo tutto (logica e layout) in un unico file index.php -->
 </head>
 <body>
 
-<div class="container my-5">
+<div class="container my-5 text-center">
+
+    <h1>PASSWORD GENERATOR</h1>
 
     <div class="my-4">
-        <?php echo $result ?>
+        <p><?php echo $result ?></p>
     </div>
 
     <form action="index.php" method="get">
         <label for="char-numbers">Inserisci il numero di caratteri</label>
         <input type="number" id="char-numbers" name="char-num">
         <button class="btn btn-primary" type="submit">Invia</button>
+        <a class="btn btn-primary" href="index.php">Annulla</a>
     </form>
 </div>
     
