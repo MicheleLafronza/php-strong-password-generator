@@ -13,8 +13,14 @@ if (!isset($_GET['char-num'])) {
 } else {
     // se il dato esiste e rispetta i requisiti avviamo la funzione di generazione della password
     $char_num = ($_GET['char-num']);
-    // var_dump($char_num);
     $result = 'La tua password è:' . ' ' . passGen($char_num);
+    // dopo aver generato la password avviamo la session
+    session_start();
+    // impostiamo il risultato finale come variabile in session
+    $_SESSION['risultato'] = $result;
+    // ci reindirizziamo sulla pagina di risultato
+    header('Location: result.php');
+    exit();
 }
 
 ?>
